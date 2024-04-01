@@ -32,7 +32,7 @@
 
       Covenant University, Ota, Ogun, Nigeria
 
-      #image("images/covenant.png", width: 17%)
+      #image("covenant.png", width: 17%)
 
       #date.display("[month repr:long] [year]")
     ])
