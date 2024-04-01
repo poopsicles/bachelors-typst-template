@@ -9,7 +9,7 @@
   content,
 ) = {
   set page(paper: "a4")
-  set par(justify: true, first-line-indent: 1.8em)
+  set par(justify: true)
   set heading(numbering: "1.")
   set text(font: "New Computer Modern", 14pt)
 
