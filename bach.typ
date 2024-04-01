@@ -85,7 +85,7 @@
   pagebreak(weak: true)
   set page(header: [])
   bibliography(
-    "bib.yml",
+    "./references.yml",
     title: "References",
     style: "american-psychological-association",
   )
