@@ -11,7 +11,7 @@
   set page(paper: "a4")
   set par(justify: true)
   set heading(numbering: "1.")
-  set text(font: "New Computer Modern", 14pt)
+  set text(font: "New Computer Modern", 12pt)
 
   show raw: set text(font: "FiraCode Nerd Font Mono")
   show heading.where(level: 1): it => [
