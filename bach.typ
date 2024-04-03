@@ -1,15 +1,31 @@
 #import "@preview/i-figured:0.2.4"
 
+// if none, give "blank page template"
 #let blankify(thing) = {
   if thing == none {
-    align(horizon+center)[
-      This page is intentionally left blank.
+    align(horizon + center)[
+      This page is intentionally left blank.\
+      Except for the line above this.\
+      And this.
+
+      You get the idea.
     ]
   } else {
     par[#thing]
   }
 }
 
+// make a figure of code and pretend it's an image
+#let code-figure(caption, code) = {
+  figure(
+    block(fill: luma(240), width: 90%, inset: 10pt, code),
+    caption: caption,
+    kind: image,
+    supplement: "Figure",
+  )
+}
+
+// template
 #let bach(
   title: none,
   author: none,
@@ -22,12 +38,24 @@
   content,
 ) = {
   set page(paper: "a4", margin: (top: 1in, bottom: 1in, left: 1.5in, right: 1in))
-  set par(justify: true, leading: 0.7em)
+  set par(justify: true, leading: 0.75em)
   set heading(numbering: "1.")
   set text(font: "New Computer Modern", 12pt)
   set enum(numbering: "i.")
 
+  set footnote.entry( // make footnotes have dots above
+    separator: repeat[.],
+  )
+
+  // make first row of table grey
+  set table(fill: (_, y) => if y == 0 { luma(230) }, align: horizon)
+  set table.cell(inset: 10pt) // padding
+
+  // code block font
   show raw: set text(font: "FiraCode Nerd Font Mono")
+
+  // table headings bold
+  show table.cell.where(y: 0): set text(weight: "bold")
 
   // heading sizes
   show heading.where(level: 1): set text(size: 14pt)
@@ -45,6 +73,13 @@
   show heading: i-figured.reset-counters
   show figure: i-figured.show-figure
 
+  // break tables across pages
+  show figure: set block(breakable: true)
+
+  // table captions top
+  show figure.where(kind: table): set figure.caption(position: top)
+
+  // make heading be smallcaps
   show heading.where(level: 1): it => [
     #set par(justify: false)
     #set align(center)
@@ -54,30 +89,57 @@
   ]
 
   // title page
-  align(center, [
-    #set text(weight: "bold")
-    #set par(justify: false)
-    #smallcaps([
-      #title
+  align(
+    horizon + center,
+    [
+      #set text(weight: "bold", size: 14pt)
+      #set par(justify: false)
+      #smallcaps(
+        [
+          #title
 
-      #author, #matric
+          #linebreak()
+          #linebreak()
+          #linebreak()
 
-      Covenant University, Ota, Ogun, Nigeria
+          by
 
-      #image("covenant.png", width: 17%)
+          #linebreak()
+          #linebreak()
+          #linebreak()
 
-      #date.display("[month repr:long] [year]")
-    ])
-  ])
+          #author
+          #linebreak()
+          (#matric)
+
+          #linebreak()
+
+          A Project Submitted to the Department of Computer and Information Sciences,
+          College of Science and Technology, Covenant University Ota, Ogun State.
+
+          #linebreak()
+
+          In Partial Fulfilment of the Requirements for the Award of the Bachelor of
+          Science (Honours) Degree in Computer Science.
+
+          #linebreak()
+
+          #image("covenant.png", width: 17%)
+
+          #date.display("[month repr:long] [year]")
+        ],
+      )
+    ],
+  )
+
   pagebreak(weak: true)
-
   set page(numbering: "i.", number-align: right)
+  counter(page).update(1)
 
   // certification
   heading("Certification", numbering: none)
 
-  par(
-    )[
+  par[
     I hereby certify that this project was carried out by #author (#matric) in the
     Department of Computer and Information Sciences, College of Science and
     Technology, Covenant University, Ogun State, Nigeria, under my supervision.
@@ -119,14 +181,14 @@
   blankify(acknowledgements)
   pagebreak(weak: true)
 
-  // tables // todo fix
-  outline(target: heading, title: "Table of Contents")
+  // tables of contents, tables, figures
+  outline(title: "Table of Contents", indent: auto)
   pagebreak(weak: true)
 
-  outline(target: figure.where(kind: image), title: "Table of Figures")
+  i-figured.outline(target-kind: table, title: "List of Tables")
   pagebreak(weak: true)
 
-  outline(target: figure.where(kind: table), title: "List of Tables")
+  i-figured.outline(target-kind: image, title: "List of Figures")
   pagebreak(weak: true)
 
   // abstract
@@ -135,9 +197,10 @@
   pagebreak(weak: true)
 
   // content
-  set page(numbering: "1.")
+  set page(numbering: "1")
   counter(page).update(1)
 
+  // make heading have "chapter x" on top and smallcaps
   show heading.where(level: 1): it => [
     #set par(justify: false)
     #set align(center)
@@ -151,19 +214,19 @@
   content
 
   // references
+  // make heading be smallcaps
+  show heading.where(level: 1): it => [
+    #set par(justify: false)
+    #set align(center)
+    #smallcaps(it.body)
+    #linebreak()
+    #linebreak()
+  ]
+
   pagebreak(weak: true)
   bibliography(
     "../references.yml",
     title: "References",
     style: "american-psychological-association",
-  )
-}
-
-#let code-figure(caption, code) = {
-  figure(
-    block(fill: luma(240), width: 90%, inset: 10pt, code),
-    caption: caption,
-    kind: image,
-    supplement: "Figure",
   )
 }
