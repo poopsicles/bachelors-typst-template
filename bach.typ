@@ -1,5 +1,15 @@
 #import "@preview/i-figured:0.2.4"
 
+#let blankify(thing) = {
+  if thing == none {
+    align(horizon+center)[
+      This page is intentionally left blank.
+    ]
+  } else {
+    par[#thing]
+  }
+}
+
 #let bach(
   title: none,
   author: none,
@@ -74,6 +84,7 @@
   ]
 
   linebreak()
+  linebreak()
 
   grid(
     columns: (55%, auto),
@@ -100,15 +111,15 @@
 
   // dedication
   heading("Dedication", numbering: none)
-  par([#dedication])
+  blankify(dedication)
   pagebreak(weak: true)
 
   // acknowledgements
   heading("Acknowledgements", numbering: none)
-  par([#acknowledgements])
+  blankify(acknowledgements)
   pagebreak(weak: true)
 
-  // tables
+  // tables // todo fix
   outline(target: heading, title: "Table of Contents")
   pagebreak(weak: true)
 
@@ -119,14 +130,8 @@
   pagebreak(weak: true)
 
   // abstract
-  // set page(header: [
-  //   #align(right, [
-  //     _ #title _
-  //   ])
-  // ])
-
   heading("Abstract", numbering: none)
-  par([#abstract])
+  blankify(abstract)
   pagebreak(weak: true)
 
   // content
@@ -139,16 +144,14 @@
     #smallcaps("Chapter " + counter(heading).display())
     #linebreak()
     #smallcaps(it.body)
-    \
-    \
+    #linebreak()
+    #linebreak()
   ]
 
-  // columns(2, content)
   content
 
   // references
   pagebreak(weak: true)
-  set page(header: [])
   bibliography(
     "../references.yml",
     title: "References",
