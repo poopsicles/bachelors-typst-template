@@ -4,11 +4,11 @@
 #let blankify(thing) = {
   if thing == none {
     align(horizon + center)[
-      This page is intentionally left blank.\
-      Except for the line above this.\
-      And this.
+      This page has been intentionally left blank.\
+      // Except for the line above this.\
+      // And this.
 
-      You get the idea.
+      // You get the idea.
     ]
   } else {
     par[#thing]
@@ -23,6 +23,14 @@
     kind: image,
     supplement: "Figure",
   )
+}
+
+// make a table figure and break it across a page if need be
+#let table-figure(caption, table) = {
+  set par(justify: false)
+  show figure: set block(breakable: true)
+
+  figure(table, caption: caption)
 }
 
 // template
@@ -72,9 +80,6 @@
   // special figure numbering
   show heading: i-figured.reset-counters
   show figure: i-figured.show-figure
-
-  // break tables across pages
-  show figure: set block(breakable: true)
 
   // table captions top
   show figure.where(kind: table): set figure.caption(position: top)
