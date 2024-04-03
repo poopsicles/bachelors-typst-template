@@ -42,6 +42,7 @@
   supervisor: none,
   dedication: none,
   acknowledgements: none,
+  reference-path: none,
   date: datetime.today(),
   content,
 ) = {
@@ -128,8 +129,6 @@
           Science (Honours) Degree in Computer Science.
 
           #linebreak()
-
-          #image("covenant.png", width: 17%)
 
           #date.display("[month repr:long] [year]")
         ],
@@ -230,7 +229,7 @@
 
   pagebreak(weak: true)
   bibliography(
-    "../references.yml",
+    reference-path,
     title: "References",
     style: "american-psychological-association",
   )
