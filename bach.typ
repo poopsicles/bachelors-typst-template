@@ -5,8 +5,9 @@
   author: none,
   matric: none,
   abstract: none,
-  acknowledgements: none,
+  supervisor: none,
   dedication: none,
+  acknowledgements: none,
   date: datetime.today(),
   content,
 ) = {
@@ -38,8 +39,8 @@
     #set par(justify: false)
     #set align(center)
     #smallcaps(it.body)
-    \
-    \
+    #linebreak()
+    #linebreak()
   ]
 
   // title page
@@ -62,14 +63,49 @@
 
   set page(numbering: "i.", number-align: right)
 
-  // acknowledgements
-  heading("Acknowledgements", numbering: none)
-  par([#acknowledgements])
+  // certification
+  heading("Certification", numbering: none)
+
+  par(
+    )[
+    I hereby certify that this project was carried out by #author (#matric) in the
+    Department of Computer and Information Sciences, College of Science and
+    Technology, Covenant University, Ogun State, Nigeria, under my supervision.
+  ]
+
+  linebreak()
+
+  grid(
+    columns: (55%, auto),
+    gutter: 10pt,
+    [*#supervisor*],
+    align(bottom)[#line(length: 100%)],
+    [_Supervisor_],
+    align(center)[*Signature and Date*],
+  )
+
+  linebreak()
+  linebreak()
+
+  grid(
+    columns: (55%, auto),
+    gutter: 10pt,
+    [*Professor Olufunke O. Oladipupo*],
+    align(bottom)[#line(length: 100%)],
+    [_Head of Department_],
+    align(center)[*Signature and Date*],
+  )
+
   pagebreak(weak: true)
 
   // dedication
   heading("Dedication", numbering: none)
   par([#dedication])
+  pagebreak(weak: true)
+
+  // acknowledgements
+  heading("Acknowledgements", numbering: none)
+  par([#acknowledgements])
   pagebreak(weak: true)
 
   // tables
@@ -100,7 +136,7 @@
   show heading.where(level: 1): it => [
     #set par(justify: false)
     #set align(center)
-    #smallcaps("Chapter " + counter(heading).display()) 
+    #smallcaps("Chapter " + counter(heading).display())
     #linebreak()
     #smallcaps(it.body)
     \
@@ -122,9 +158,9 @@
 
 #let code-figure(caption, code) = {
   figure(
-    block(fill: luma(240), width: 90%, inset: 10pt, code), 
-    caption: caption, 
-    kind: image, 
-    supplement: "Figure"
+    block(fill: luma(240), width: 90%, inset: 10pt, code),
+    caption: caption,
+    kind: image,
+    supplement: "Figure",
   )
 }
