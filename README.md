@@ -28,13 +28,14 @@ apart from the template, this also provides:
 
 - template:
 
-  0. get [typst](https://typst.app) and [fira code nerd font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip).
-  1. get the files:     
+  1. get [typst](https://typst.app) and [fira code nerd font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip).
+
+  2. get the files:     
      ```sh
      $ git submodule add https://github.com/poopsicles/bach-typst-temp template
      ```
 
-  2. make sure your folder looks like this (`project.typ` is your main typst file, `references.yml` is your [bibliography](https://typst.app//docs/reference/model/bibliography)):
+  3. make sure your folder looks like this (`project.typ` is your main typst file, `references.yml` is your [bibliography](https://typst.app//docs/reference/model/bibliography)):
      ```text
      .
      ├── project.typ
@@ -46,7 +47,7 @@ apart from the template, this also provides:
          └── README.md
      ```
 
-  3. in `project.typ`, import the function and use it:
+  4. in `project.typ`, import the function and use it:
 
      ```text
      #import "template/bach.typ": bach
@@ -69,7 +70,7 @@ apart from the template, this also provides:
      // put in the rest of your content
      ```  
   
-  4. In the function call, the following fields can be added (if they're not, then a blank space/page will be shown instead, except for `print` which will make your links not blue/underlined):
+  5. In the function call, the following fields can be added (if they're not, then a blank space/page will be shown instead, except for `print` which will make your links not blue/underlined):
 
      ```text
      bach(
@@ -94,14 +95,14 @@ apart from the template, this also provides:
 
      A rendering of this can be found [here](examples/example.pdf).
 
-  > [!IMPORTANT]  
-  > Make sure you set `print` to true ONLY when you're about to export a print-ready PDF.
-  >
-  > From the [Style and Grammar Guidelines](https://apastyle.apa.org/style-grammar-guidelines/references/dois-urls):
-  >
-  > *It is acceptable to use either the default display settings for hyperlinks in your word-processing program (e.g., usually blue font, underlined) or plain text that is not underlined.*
-  >
-  > *Leave links live if the work is to be published or read online.*
+> [!IMPORTANT]  
+> Make sure you set `print` to true ONLY when you're about to export a print-ready PDF.
+>
+> From the [Style and Grammar Guidelines](https://apastyle.apa.org/style-grammar-guidelines/references/dois-urls):
+>
+> *It is acceptable to use either the default display settings for hyperlinks in your word-processing program (e.g., usually blue font, underlined) or plain text that is not underlined.*
+>
+> *Leave links live if the work is to be published or read online.*
 
 - `blankify()`:
 
