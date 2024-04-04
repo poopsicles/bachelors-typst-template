@@ -69,7 +69,7 @@ apart from the template, this also provides:
      // put in the rest of your content
      ```  
   
-  4. In the function call, the following fields can be added (if they're not, then a blank space/page will be shown instead):
+  4. In the function call, the following fields can be added (if they're not, then a blank space/page will be shown instead, except for `print` which will make your links not blue/underlined):
 
      ```text
      bach(
@@ -87,11 +87,21 @@ apart from the template, this also provides:
        acknowledgements: [
          No one else had a hand in this.
        ],
+       print: true,
        content,
      )
      ```
 
      A rendering of this can be found [here](examples/example.pdf).
+
+  > [!IMPORTANT]  
+  > Make sure you set `print` to true ONLY when you're about to export a print-ready PDF.
+  >
+  > From the [Style and Grammar Guidelines](https://apastyle.apa.org/style-grammar-guidelines/references/dois-urls):
+  >
+  > *It is acceptable to use either the default display settings for hyperlinks in your word-processing program (e.g., usually blue font, underlined) or plain text that is not underlined.*
+  >
+  > *Leave links live if the work is to be published or read online.*
 
 - `blankify()`:
 

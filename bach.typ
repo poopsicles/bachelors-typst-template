@@ -44,6 +44,7 @@
   acknowledgements: none,
   reference-path: none,
   date: datetime.today(),
+  print: none,
   content,
 ) = {
   set page(paper: "a4", margin: (top: 1in, bottom: 1in, left: 1.5in, right: 1in))
@@ -78,9 +79,13 @@
   show heading.where(level: 2): set text(size: 13pt)
   show heading.where(level: 3): set text(size: 13pt)
 
-  // make links blue/underline
-  show link: underline
-  show link: set text(fill: blue)
+  // make links blue/underline unless printing
+  show link: it => if print == true {
+    it
+  } else {
+    set text(fill: blue)
+    underline(it)
+  }
 
   // fix for nbhyp
   show "-": sym.hyph.nobreak
