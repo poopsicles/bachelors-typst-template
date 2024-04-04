@@ -51,7 +51,7 @@
   set par(justify: true, leading: 0.75em)
   set heading(numbering: "1.")
   set text(font: "New Computer Modern", 12pt)
-  set enum(numbering: "i.")
+  set enum(numbering: "i")
 
   set footnote.entry( // make footnotes have dots above
     separator: repeat[.],
