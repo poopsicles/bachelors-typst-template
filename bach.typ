@@ -18,7 +18,7 @@
 // make a figure of code and pretend it's an image
 #let code-figure(caption, code) = {
   figure(
-    block(fill: luma(240), width: 90%, inset: 10pt, code),
+    block(fill: luma(240), width: 90%, inset: 10pt, radius: 5pt, code),
     caption: caption,
     kind: image,
     supplement: "Figure",
@@ -55,6 +55,13 @@
   set footnote.entry( // make footnotes have dots above
     separator: repeat[.],
   )
+
+  // make heading refs. say chapter
+  set ref(supplement: it => {
+    if it.func() == heading {
+      "Chapter"
+    }
+  })
 
   // make first row of table grey
   set table(fill: (_, y) => if y == 0 { luma(230) }, align: horizon)
