@@ -33,6 +33,17 @@
   figure(table, caption: caption)
 }
 
+// convert num to string for chapter headings
+#let stringify(num) = {
+  (
+    (num == "1.", "One"),
+    (num == "2.", "Two"),
+    (num == "3.", "Three"),
+    (num == "4.", "Four"),
+    (num == "5.", "Five"),
+  ).find(x => x.at(0)).at(1)
+}
+
 // template
 #let bach(
   title: none,
@@ -51,11 +62,7 @@
   set par(justify: true, leading: 0.75em)
   set heading(numbering: "1.")
   set text(font: "New Computer Modern", 12pt)
-  set enum(numbering: "i")
-
-  set footnote.entry( // make footnotes have dots above
-    separator: repeat[.],
-  )
+  set enum(numbering: "i.")
 
   // make heading refs. say chapter
   set ref(supplement: it => {
@@ -149,7 +156,7 @@
   )
 
   pagebreak(weak: true)
-  set page(numbering: "i.", number-align: right)
+  set page(numbering: "i", number-align: center)
   counter(page).update(1)
 
   // certification
@@ -220,7 +227,8 @@
   show heading.where(level: 1): it => [
     #set par(justify: false)
     #set align(center)
-    #smallcaps("Chapter " + counter(heading).display())
+    #linebreak()
+    #smallcaps("Chapter " + stringify(counter(heading).display()))
     #linebreak()
     #smallcaps(it.body)
     #linebreak()
