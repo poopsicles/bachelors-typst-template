@@ -2,20 +2,20 @@
 
 a [typst](https://typst.app) template for my [final year project](https://github.com/poopsicles/bachelors) here at [covenant university](https://en.wikipedia.org/wiki/Covenant_University).
 
-very opinonated, crossed-out ~~items~~ mean i didn't like what they said we should do in the [word doc](word_template.docx).
+very opinonated, crossed-out ~~items~~ mean i didn't like what they said we should do in the [word doc](word_template.docx) (items marked with * can be reverted with print mode).
 
-- font: ~~Times New Roman~~ New Computer Modern. 
-    - 14vpt - heading 1
+- font*: ~~Times New Roman~~ New Computer Modern 
+    - 14pt - heading 1
     - 13pt - other headings
     - 12pt - body text
 - justify: full
 - margins: 
     - top, bottom, right - 1in
     - left: 1.5in
-- line spacing: 1.5 line spacing in Word, [translates to 175% leading](https://practicaltypography.com/line-spacing.html) - 0.75em
-- headings: centred, ~~all caps~~ small caps
-- page numbers: ~~centred~~ right-aligned
-- footer: ~~30% line~~ dots
+- line spacing: 1.5 line spacing in Word, [translates to 175% leading](https://practicaltypography.com/line-spacing.html) - 0.75em (not even sure about this tbh, word is hell)
+- headings*: centred, ~~all caps~~ small caps
+- page numbers: centred
+- footer*: ~~30% line~~ dots
 - table of contents: headings 1 ~~all caps~~ sentence case
 
 apart from the template, this also provides:
@@ -70,7 +70,7 @@ apart from the template, this also provides:
      // put in the rest of your content
      ```  
   
-  5. In the function call, the following fields can be added (if they're not, then a blank space/page will be shown instead, except for `print` which will make your links not blue/underlined):
+  5. In the function call, the following fields can be added (if they're not, then a blank space/page will be shown instead, except for `print` which will make your links not blue/underlined and text set in Times):
 
      ```text
      bach(
@@ -96,13 +96,17 @@ apart from the template, this also provides:
      A rendering of this can be found [here](examples/example.pdf).
 
 > [!IMPORTANT]  
-> Make sure you set `print` to true ONLY when you're about to export a print-ready PDF.
+> Make sure you set `print` to true ONLY when you're about to export a print-ready PDF (that will use their template settings including [Times](bach.typ#L65), centred page numbers, and bare links).
 >
 > From the [Style and Grammar Guidelines](https://apastyle.apa.org/style-grammar-guidelines/references/dois-urls):
 >
 > *It is acceptable to use either the default display settings for hyperlinks in your word-processing program (e.g., usually blue font, underlined) or plain text that is not underlined.*
 >
 > *Leave links live if the work is to be published or read online.*
+>
+> |_pretty_|_print_|
+> |:-:|:-:|
+> |![](pretty.png)|![](print.png)|
 
 - `blankify()`:
 

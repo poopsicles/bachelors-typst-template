@@ -61,8 +61,30 @@
   set page(paper: "a4", margin: (top: 1in, bottom: 1in, left: 1.5in, right: 1in))
   set par(justify: true, leading: 0.75em)
   set heading(numbering: "1.")
-  set text(font: "New Computer Modern", 12pt)
+
+  // Times doesn't have small caps, so we improvise
+  let embiggen = if print == true { upper } else { smallcaps }
+
+  // text is comp. modern normally
+  // times when printing
+  set text(
+    font: if print == true {
+      "Times New Roman"
+    } else {
+      "New Computer Modern"
+    },
+    12pt,
+  )
+
   set enum(numbering: "i.")
+
+  // make footnotes have dots above them
+  // except the default when printing
+  set footnote.entry(separator: if print == true {
+    line(length: 30%, stroke: 0.5pt)
+  } else {
+    repeat[.]
+  })
 
   // make heading refs. say chapter
   set ref(supplement: it => {
@@ -72,7 +94,12 @@
   })
 
   // make first row of table grey
-  set table(fill: (_, y) => if y == 0 { luma(230) }, align: horizon)
+  set table(
+    fill: (_, y) => if y == 0 {
+      luma(230)
+    },
+    align: horizon,
+  )
   set table.cell(inset: 10pt) // padding
 
   // code block font
@@ -104,11 +131,12 @@
   // table captions top
   show figure.where(kind: table): set figure.caption(position: top)
 
-  // make heading be smallcaps
+  // make heading be smallcaps (when pretty)
   show heading.where(level: 1): it => [
+    #i-figured.reset-counters(it, return-orig-heading: false)
     #set par(justify: false)
     #set align(center)
-    #smallcaps(it.body)
+    #embiggen(it.body)
     #linebreak()
     #linebreak()
   ]
@@ -119,44 +147,49 @@
     [
       #set text(weight: "bold", size: 14pt)
       #set par(justify: false)
-      #smallcaps(
-        [
-          #title
+      #embiggen([
+        #title
 
-          #linebreak()
-          #linebreak()
-          #linebreak()
+        #linebreak()
+        #linebreak()
+        #linebreak()
 
-          by
+        by
 
-          #linebreak()
-          #linebreak()
-          #linebreak()
+        #linebreak()
+        #linebreak()
+        #linebreak()
 
-          #author
-          #linebreak()
-          (#matric)
+        #author
+        #linebreak()
+        (#matric)
 
-          #linebreak()
+        #linebreak()
 
-          A Project Submitted to the Department of Computer and Information Sciences,
-          College of Science and Technology, Covenant University Ota, Ogun State.
+        A Project Submitted to the Department of Computer and Information Sciences,
+        College of Science and Technology, Covenant University Ota, Ogun State.
 
-          #linebreak()
+        #linebreak()
 
-          In Partial Fulfilment of the Requirements for the Award of the Bachelor of
-          Science (Honours) Degree in Computer Science.
+        In Partial Fulfilment of the Requirements for the Award of the Bachelor of
+        Science (Honours) Degree in Computer Science.
 
-          #linebreak()
+        #linebreak()
 
-          #date.display("[month repr:long] [year]")
-        ],
-      )
+        #date.display("[month repr:long] [year]")
+      ])
     ],
   )
 
   pagebreak(weak: true)
-  set page(numbering: "i", number-align: center)
+  set page(
+    numbering: "i",
+    number-align: if print == true {
+      center
+    } else {
+      right
+    },
+  )
   counter(page).update(1)
 
   // certification
@@ -225,12 +258,13 @@
 
   // make heading have "chapter x" on top and smallcaps
   show heading.where(level: 1): it => [
+    #i-figured.reset-counters(it, return-orig-heading: false)
     #set par(justify: false)
     #set align(center)
     #linebreak()
-    #smallcaps("Chapter " + stringify(counter(heading).display()))
+    #embiggen("Chapter " + stringify(counter(heading).display()))
     #linebreak()
-    #smallcaps(it.body)
+    #embiggen(it.body)
     #linebreak()
     #linebreak()
   ]
@@ -240,9 +274,10 @@
   // references
   // make heading be smallcaps
   show heading.where(level: 1): it => [
+    #i-figured.reset-counters(it, return-orig-heading: false)
     #set par(justify: false)
     #set align(center)
-    #smallcaps(it.body)
+    #embiggen(it.body)
     #linebreak()
     #linebreak()
   ]

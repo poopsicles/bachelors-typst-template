@@ -15,6 +15,7 @@
   acknowledgements: [
     No one else had a hand in this.
   ],
+  reference-path: "examples/example.yml",
   content,
 )
 
