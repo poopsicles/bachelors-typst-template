@@ -203,6 +203,8 @@
 
   linebreak()
   linebreak()
+  linebreak()
+  linebreak()
 
   grid(
     columns: (55%, auto),
@@ -213,6 +215,9 @@
     align(center)[*Signature and Date*],
   )
 
+  linebreak()
+  linebreak()
+  linebreak()
   linebreak()
   linebreak()
 

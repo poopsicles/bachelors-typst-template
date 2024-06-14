@@ -4,18 +4,18 @@ a [typst](https://typst.app) template for my [final year project](https://github
 
 very opinonated, crossed-out ~~items~~ mean i didn't like what they said we should do in the [word doc](word_template.docx) (items marked with * can be reverted with print mode).
 
-- font*: ~~Times New Roman~~ New Computer Modern 
-    - 14pt - heading 1
-    - 13pt - other headings
-    - 12pt - body text
-- justify: full
-- margins: 
+- [font](bach.typ#L65)*: ~~Times New Roman~~ New Computer Modern 
+    - [14pt](bach.typ#L112) - heading 1
+    - [13pt](bach.typ#L113) - other headings
+    - [12pt](bach.typ#L114) - body text
+- [justify](bach.typ#L62): full
+- [margins](bach.typ#L61): 
     - top, bottom, right - 1in
     - left: 1.5in
-- line spacing: 1.5 line spacing in Word, [translates to 175% leading](https://practicaltypography.com/line-spacing.html) - 0.75em (not even sure about this tbh, word is hell)
+- [line spacing](bach.typ#L62): 1.5 line spacing in Word, [translates to 175% leading](https://practicaltypography.com/line-spacing.html) - 0.75em (not even sure about this tbh, word is hell)
 - headings*: centred, ~~all caps~~ small caps
-- page numbers: centred
-- footer*: ~~30% line~~ dots
+- [page numbers](bach.typ#L187)*: ~~centred~~ right-aligned
+- [footer](bach.typ#L81)*: ~~30% line~~ dots
 - table of contents: headings 1 ~~all caps~~ sentence case
 
 apart from the template, this also provides:
@@ -70,7 +70,7 @@ apart from the template, this also provides:
      // put in the rest of your content
      ```  
   
-  5. In the function call, the following fields can be added (if they're not, then a blank space/page will be shown instead, except for `print` which will make your links not blue/underlined and text set in Times):
+  5. In the function call, the following fields can be added (if they're not, then a blank space/page will be shown instead, except for `print` which reverts some opinionated settings):
 
      ```text
      bach(
@@ -96,7 +96,7 @@ apart from the template, this also provides:
      A rendering of this can be found [here](examples/example.pdf).
 
 > [!IMPORTANT]  
-> Make sure you set `print` to true ONLY when you're about to export a print-ready PDF (that will use their template settings including [Times](bach.typ#L65), centred page numbers, and bare links).
+> Make sure you set `print` to true ONLY when you're about to export a print-ready PDF (that will use their template settings including Times, centred page numbers, the default footer, and bare links).
 >
 > From the [Style and Grammar Guidelines](https://apastyle.apa.org/style-grammar-guidelines/references/dois-urls):
 >
