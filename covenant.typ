@@ -17,9 +17,9 @@
 
 // make a figure of code and pretend it's an image
 #let code-figure(caption, code) = {
-  set par(justify: false)
+  set par(justify: false, leading: 0.75em)
   figure(
-    block(fill: luma(240), width:  90%, inset: 10pt, radius: 5pt, code),
+    block(fill: luma(240), width: 90%, inset: 10pt, radius: 5pt, code),
     caption: caption,
     kind: image,
     supplement: "Figure",
@@ -38,10 +38,15 @@
 #let stringify(num) = {
   (
     (num == "1.", "One"),
+    (num == [1.], "One"),
     (num == "2.", "Two"),
+    (num == [2.], "Two"),
     (num == "3.", "Three"),
+    (num == [3.], "Three"),
     (num == "4.", "Four"),
+    (num == [4.], "Four"),
     (num == "5.", "Five"),
+    (num == [5.], "Five"),
   ).find(x => x.at(0)).at(1)
 }
 
@@ -52,6 +57,7 @@
   names: none,
   matric: none,
   abstract: none,
+  abbreviations: none,
   supervisor: none,
   dedication: none,
   acknowledgements: none,
@@ -62,14 +68,13 @@
 ) = {
   set page(paper: "a4", margin: (left: 1.25in, right: 1in, top: 1in, bottom: 1in))
   set par(justify: true, leading: 12.6pt)
-  show par: set block(below: 1.5em)
 
   set heading(numbering: "1.")
 
   // text is times new roman
-  set text (font: "Times New Roman", size: 12pt, hyphenate: false, kerning: false)
+  set text(font: "Times New Roman", size: 12pt, hyphenate: false, kerning: false)
 
-  set enum(numbering: "(i)", indent: 0.39in)
+  set enum(numbering: (it => strong[#numbering("(i)", it)]), indent: 1cm, body-indent: 0.5cm, number-align: start)
 
   // code block font
   show raw: set text(font: "FiraCode Nerd Font Mono")
@@ -100,7 +105,10 @@
   // table captions top
   show figure.where(kind: table): set figure.caption(position: top)
 
-  // make heading be smallcaps (when pretty)
+  //igure captions bold
+  show figure.caption : strong
+
+  // make heading be all caps (when pretty)
   show heading.where(level: 1): it => [
     #i-figured.reset-counters(it, return-orig-heading: false)
     #set par(justify: false)
@@ -153,13 +161,8 @@
   pagebreak(weak: true)
   set page(
     numbering: "i",
-    number-align: if print == true {
-      center
-    } else {
-      right
-    },
+    number-align: center,
   )
-  counter(page).update(1)
 
   // certification
   heading("Certification", numbering: none)
@@ -177,14 +180,11 @@
 
   grid(
     columns: (55%, auto),
-    gutter: 10pt,
-    [*#supervisor*],
-    align(bottom)[#line(length: 100%)],
-    [_Supervisor_],
-    align(center)[*Signature and Date*],
+    gutter: 6pt,
+    [*#supervisor*], align(bottom)[#line(length: 100%)],
+    [_Supervisor_], align(center)[*Signature and Date*],
   )
 
-  linebreak()
   linebreak()
   linebreak()
   linebreak()
@@ -192,11 +192,9 @@
 
   grid(
     columns: (55%, auto),
-    gutter: 10pt,
-    [*Professor Olufunke O. Oladipupo*],
-    align(bottom)[#line(length: 100%)],
-    [_Head of Department_],
-    align(center)[*Signature and Date*],
+    gutter: 6pt,
+    [*Prof. Olufunke O. Oladipupo*], align(bottom)[#line(length: 100%)],
+    [_Head of Department_], align(center)[*Signature and Date*],
   )
 
   pagebreak(weak: true)
@@ -211,14 +209,130 @@
   blankify(acknowledgements)
   pagebreak(weak: true)
 
-  // tables of contents, tables, figures
-  outline(title: "Table of Contents", indent: auto)
-  pagebreak(weak: true)
+  set outline(fill: none)
 
-  i-figured.outline(target-kind: table, title: "List of Tables")
-  pagebreak(weak: true)
+  // table of contents
+  [
+    #set par(leading: 0.8em)
+    // add some spacing. do it the way they want
+    #show outline.entry.where(level: 1): it => {
+      let x = it.body.fields().at("text", default: "THISISAHACK")
+      if x == "THISISAHACK" {
+        x = it.body.fields().at("children")
+        v(13pt)
+        x = "Chapter " + stringify(x.at(0)) + ": " + x.at(2)
+      }
 
-  i-figured.outline(target-kind: image, title: "List of Figures")
+      if x == "References" {
+        v(13pt)
+      }
+
+      link(it.element.location())[#strong(upper(x))]
+      box(width: 1fr)
+      link(it.element.location())[#strong(it.page)]
+    }
+
+    #heading(numbering: none)[TABLE OF CONTENTS]
+    *CONTENT*
+    #box(width: 1fr)
+    *PAGES*
+    #outline(title: none, indent: auto)
+    #pagebreak(weak: true)
+  ]
+
+  // table of figures
+  [
+    #show table.cell.where(y: 0): set text(weight: "regular")
+    #set table.cell(inset: 0pt)
+    #set par(leading: 0.8em)
+
+    #show outline.entry: it => {
+      let c = []
+      for value in it.body.fields().at("children").slice(4) {
+        c += value
+      }
+      show table: set block(below: 12pt, above: 0pt)
+      table(
+        columns: (15%, 70%, 10%),
+        inset: 10pt,
+        stroke: 0pt,
+        align: (left, left, right),
+
+      )[#link(it.element.location())[#it.body.at("children").at(2)]][#link(it.element.location())[#c]][#link(
+          it.element.location(),
+        )[#it.page]]
+      v(-10pt)
+    }
+
+    #heading(numbering: none)[List of Figures]
+    #show table: set block(below: 14pt, above: 0pt)
+    #table(
+      columns: (15%, 70%, 10%),
+      inset: 0pt,
+      stroke: 0pt,
+      align: (left, center, right),
+
+    )[*FIGURES*][*TITLE OF FIGURES*][*PAGES*]
+
+    #i-figured.outline(target-kind: image, title: none)
+
+    #pagebreak(weak: true)
+  ]
+
+  // list of tables
+  [
+    #show table.cell.where(y: 0): set text(weight: "regular")
+    #set table.cell(inset: 0pt)
+    #set par(leading: 0.8em)
+
+    #show outline.entry: it => {
+      let c = []
+      for value in it.body.fields().at("children").slice(4) {
+        c += value
+      }
+      show table: set block(below: 12pt, above: 0pt)
+      table(
+        columns: (15%, 70%, 10%),
+        inset: 10pt,
+        stroke: 0pt,
+        align: (left, left, right),
+
+      )[#link(it.element.location())[#it.body.at("children").at(2)]][#link(it.element.location())[#c]][#link(
+          it.element.location(),
+        )[#it.page]]
+      v(-10pt)
+    }
+
+    #heading(numbering: none)[List of Tables]
+    #show table: set block(below: 14pt, above: 0pt)
+    #table(
+      columns: (15%, 70%, 10%),
+      stroke: 0pt,
+      align: (left, center, right),
+
+    )[*TABLES*][*TITLE OF TABLES*][*PAGES*]
+
+    #i-figured.outline(target-kind: table, title: none)
+
+    #pagebreak(weak: true)
+  ]
+
+  // abbreviations = ("a: dddd", "b: sjsjsjs")
+  // abbreviations
+  [
+    #show table.cell.where(y: 0): set text(weight: "regular")
+    #set table.cell(inset: 5pt)
+    #set par(leading: 0.8em)
+    #heading("Abbreviations", numbering: none)
+    #if abbreviations != none {
+      table(
+        columns: (1fr),
+        align: (left),
+        stroke: 0pt,
+        ..(abbreviations.sorted()),
+      )
+    }
+  ]
   pagebreak(weak: true)
 
   // abstract
@@ -229,6 +343,8 @@
   // content
   set page(numbering: "1")
   counter(page).update(1)
+
+  // show par: set block(below: 1.5em)
 
   // make heading have "chapter x" on top and smallcaps
   show heading.where(level: 1): it => [
@@ -243,7 +359,12 @@
     #linebreak()
   ]
 
-  content
+  [
+    #show heading: set block(below: 13pt)
+    #show par: set block(below: 18pt)
+
+    #content
+  ]
 
   // references
   // make heading be smallcaps
