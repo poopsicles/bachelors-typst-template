@@ -31,6 +31,25 @@
   )
 }
 
+#let code-figure2(caption, code, lab) = [
+  // #show figure: i-figured.show-figure
+
+  #set par(justify: false, leading: 0.75em)
+
+  #let f = [
+    #figure(
+      block(fill: luma(240), width: 90%, inset: 10pt, radius: 5pt, code),
+      caption: caption,
+      kind: image,
+      supplement: "Figure",
+    ) label(lab)
+  ]
+  #repr(
+    // f.children.at(1)
+    i-figured.show-figure(f.children.at(1))
+  )
+]
+
 // make a table figure and break it across a page if need be
 #let table-figure(caption, table) = {
   set par(justify: false)
@@ -73,7 +92,7 @@
   set page(paper: "a4", margin: (left: 1.25in, right: 1in, top: 1in, bottom: 1in))
 
   // text is times new roman
-  set text(font: "Times New Roman", size: 12pt, hyphenate: false, kerning: false)
+  set text(font: "Times New Roman", size: 12pt, hyphenate: true, kerning: true)
 
   set par(justify: true, leading: 12.6pt)
 
@@ -88,10 +107,17 @@
   // table headings bold
   show table.cell.where(y: 0): set text(weight: "bold")
   show table.cell: set par(leading: 0.7em)
-  // set table.cell(inset: 10pt) // padding
-  // set table(stroke: (cap: "round"))
 
-  // set table.ce
+
+  // make tables cute
+  set table(stroke: (x, y) => (
+    left: if x > 0 {
+      1pt
+    },
+    top: 1pt,
+    bottom: 1pt,
+  ))
+
   // make heading refs. say chapter
   set ref(supplement: it => {
     if it.func() == heading {
@@ -115,8 +141,8 @@
   show figure.where(kind: table): set figure.caption(position: top)
 
   //igure captions bold
-  show figure.caption : strong
-  show figure.caption.where(kind: "i-figured-table") : it => align(left)[#it]
+  show figure.caption: strong
+  show figure.caption.where(kind: "i-figured-table"): it => align(left)[#it]
 
 
   // make heading be all caps (when pretty)
@@ -216,8 +242,8 @@
 
   // dedication
   heading("Dedication", numbering: none)
-  [ 
-    // setting paragraph spacing in here 
+  [
+    // setting paragraph spacing in here
     // so that it doesnt affect headings
     #show par: set block(below: 18pt)
     #blankify(dedication)
@@ -255,6 +281,13 @@
       box(width: 1fr)
       link(it.element.location())[#strong(it.page)]
     }
+    #show outline.entry.where(level: 2).or(outline.entry.where(level: 3)): it => {
+      link(it.element.location())[#it.body.fields().at("children").at(0)]
+      box(width: 1.5em)
+      link(it.element.location())[#it.body.fields().at("children").at(2)]
+      box(width: 1fr)
+      link(it.element.location())[#it.page]
+    }
 
     #heading(numbering: none)[TABLE OF CONTENTS]
     *CONTENT*
@@ -265,7 +298,9 @@
     #box(width: 1fr)
     *i*
     #v(-5pt)
-    #outline(indent: auto)
+    #outline(indent: n => if n != 1 {
+      box(width: 1.5em) * n
+    })
     #pagebreak(weak: true)
   ]
 
@@ -390,6 +425,7 @@
     #show heading: set block(below: 13pt)
     #show par: set block(below: 18pt)
 
+    #set page(numbering: "1")
     #content
   ]
 
