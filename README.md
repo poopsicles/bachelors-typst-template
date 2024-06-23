@@ -1,5 +1,8 @@
 # bach-typst-temp
 
+> [!CAUTION]
+> this is undergoing massive revamping due to last minute changes.
+
 a [typst](https://typst.app) template for my [final year project](https://github.com/poopsicles/bachelors) here at [covenant university](https://en.wikipedia.org/wiki/Covenant_University).
 
 very opinonated, crossed-out ~~items~~ mean i didn't like what they said we should do in the [word doc](word_template.docx) (items marked with * can be reverted with print mode).

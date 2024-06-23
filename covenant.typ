@@ -15,6 +15,11 @@
   }
 }
 
+// #let x(x: "") = {
+//   label(x)
+//   figure("hi")
+// }
+
 // make a figure of code and pretend it's an image
 #let code-figure(caption, code) = {
   set par(justify: false, leading: 0.75em)
@@ -63,16 +68,17 @@
   acknowledgements: none,
   reference-path: none,
   date: datetime.today(),
-  print: none,
   content,
 ) = {
   set page(paper: "a4", margin: (left: 1.25in, right: 1in, top: 1in, bottom: 1in))
-  set par(justify: true, leading: 12.6pt)
-
-  set heading(numbering: "1.")
 
   // text is times new roman
   set text(font: "Times New Roman", size: 12pt, hyphenate: false, kerning: false)
+
+  set par(justify: true, leading: 12.6pt)
+
+  set heading(numbering: "1.")
+  // show heading: set block(below: 13pt)
 
   set enum(numbering: (it => strong[#numbering("(i)", it)]), indent: 1cm, body-indent: 0.5cm, number-align: start)
 
@@ -81,8 +87,11 @@
 
   // table headings bold
   show table.cell.where(y: 0): set text(weight: "bold")
-  set table.cell(inset: 10pt) // padding
+  show table.cell: set par(leading: 0.7em)
+  // set table.cell(inset: 10pt) // padding
+  // set table(stroke: (cap: "round"))
 
+  // set table.ce
   // make heading refs. say chapter
   set ref(supplement: it => {
     if it.func() == heading {
@@ -107,6 +116,8 @@
 
   //igure captions bold
   show figure.caption : strong
+  show figure.caption.where(kind: "i-figured-table") : it => align(left)[#it]
+
 
   // make heading be all caps (when pretty)
   show heading.where(level: 1): it => [
@@ -177,6 +188,8 @@
   linebreak()
   linebreak()
   linebreak()
+  linebreak()
+  linebreak()
 
   grid(
     columns: (55%, auto),
@@ -190,6 +203,8 @@
   linebreak()
   linebreak()
 
+  linebreak()
+
   grid(
     columns: (55%, auto),
     gutter: 6pt,
@@ -201,15 +216,24 @@
 
   // dedication
   heading("Dedication", numbering: none)
-  blankify(dedication)
+  [ 
+    // setting paragraph spacing in here 
+    // so that it doesnt affect headings
+    #show par: set block(below: 18pt)
+    #blankify(dedication)
+  ]
   pagebreak(weak: true)
 
   // acknowledgements
   heading("Acknowledgements", numbering: none)
-  blankify(acknowledgements)
+  [
+    #show par: set block(below: 18pt)
+    #blankify(acknowledgements)
+  ]
   pagebreak(weak: true)
 
-  set outline(fill: none)
+  // no more dots
+  set outline(fill: none, title: none)
 
   // table of contents
   [
@@ -236,7 +260,12 @@
     *CONTENT*
     #box(width: 1fr)
     *PAGES*
-    #outline(title: none, indent: auto)
+
+    *COVER PAGE*
+    #box(width: 1fr)
+    *i*
+    #v(-5pt)
+    #outline(indent: auto)
     #pagebreak(weak: true)
   ]
 
@@ -337,16 +366,14 @@
 
   // abstract
   heading("Abstract", numbering: none)
-  blankify(abstract)
+  [
+    // #show par: set block(below: 18pt)
+    #set par(leading: 0.5em)
+    #blankify(abstract)
+  ]
   pagebreak(weak: true)
 
-  // content
-  set page(numbering: "1")
-  counter(page).update(1)
-
-  // show par: set block(below: 1.5em)
-
-  // make heading have "chapter x" on top and smallcaps
+  // make heading have "chapter x" on top and caps
   show heading.where(level: 1): it => [
     #i-figured.reset-counters(it, return-orig-heading: false)
     #set par(justify: false)
