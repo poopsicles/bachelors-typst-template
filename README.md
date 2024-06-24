@@ -1,7 +1,8 @@
 # bach-typst-temp
 
 > [!CAUTION]
-> this is undergoing massive revamping due to last minute changes.
+> this is undergoing massive revamping due to last minute changes and will no longer be updated here.
+> check the [codeberg repo](https://codeberg.org/fumnanya/bachelors-typst) instead.
 
 a [typst](https://typst.app) template for my [final year project](https://github.com/poopsicles/bachelors) here at [covenant university](https://en.wikipedia.org/wiki/Covenant_University).
 
